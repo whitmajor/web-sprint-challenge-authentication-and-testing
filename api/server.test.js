@@ -61,6 +61,13 @@ describe('Register', () => {
     expect(response.body).toHaveProperty("password");
 
   })
+  describe('Login', () => {
+    test('Correct data object is returned', async () => {
+      let response = await request(server).post('/api/auth/login').send({password: "1234"});
+      expect(response.body.message).toBe("username and password required")
+  
+    })
+  })
 })
 /*
 function generateToken(user) {
