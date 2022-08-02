@@ -2,6 +2,8 @@
 const request = require('supertest');
 const db = require('../data/dbConfig');
 const server = require('./server');
+const jwt = require('jsonwebtoken')
+//const {JWT_SECRET} = require('../api/auth/secrets')
 
 test('sanity', () => {
   expect(true).toBe(true)
@@ -49,4 +51,26 @@ describe('[POST] /login', () => {
     expect(res.body).toMatchObject({message: 'username and password required'})
   })
 }) 
+describe('Register', () => {
 
+  test('Correct data object is returned', async () => {
+    let response = await request(server).post('/api/auth/register').send({username: 'Des', password: "1234"});
+    expect(response.body.username).toBe("Des");
+    expect(response.body).toHaveProperty("id");
+    expect(response.body).toHaveProperty("username");
+    expect(response.body).toHaveProperty("password");
+
+  })
+})
+/*
+function generateToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+  }
+  const options = {
+    expiresIn: '1d'
+  }
+  return jwt.sign(payload, JWT_SECRET, options)
+}
+*/
